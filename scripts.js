@@ -75,6 +75,7 @@ function retry() {
     question_number = 0;
     correct = 0;
     document.querySelector("#reset").innerHTML = "";
+    document.querySelector("#correct").innerHTML = `${correct} of ${question_number}`
     questions = answered;
     answered = [];
     load_question();
