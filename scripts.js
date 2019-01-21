@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function load_question() {
-    let random = randInt(0, questions.length);
+    let random = randInt(questions.length);
     document.querySelector("#question").innerHTML = questions[random].question;
     const options = document.querySelector("#options");
     options.innerHTML = "";
@@ -81,10 +81,8 @@ function retry() {
 }
 
 
-// returns random int between min (inclusive) and max (exclusive)
-// default min value is 0
-function randInt(min = 0, max) {
+// returns random int between 0 (inclusive) and max (exclusive)
+function randInt(max) {
     max = Math.floor(max);
-    min = Math.floor(min);
-    return Math.floor(Math.random()*(max-min)) + min;
+    return Math.floor(Math.random()*max);
 }
