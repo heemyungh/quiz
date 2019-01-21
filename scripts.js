@@ -1,4 +1,4 @@
-const questions = [
+let questions = [
     {
         question: "What is Athena's favorite animal?",
         options: ["jellyfish", "penguins", "otters"],
@@ -20,6 +20,7 @@ const questions = [
         answer: "Washington, DC"
     }
 ];
+let answered = [];
 
 let question_number = 0;
 let correct = 0;
@@ -29,23 +30,28 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function load_question() {
-    document.querySelector("#question").innerHTML = questions[question_number].question;
+    let random = randInt(0, questions.length);
+    document.querySelector("#question").innerHTML = questions[random].question;
     const options = document.querySelector("#options");
     options.innerHTML = "";
-    for (const option of questions[question_number].options) {
+    for (const option of questions[random].options) {
         options.innerHTML += `<button class="option">${option}</button>`;
     }
 
     document.querySelectorAll(".option").forEach(option => {
         option.onclick = () => {
-            if (option.textContent == questions[question_number].answer) {
+            if (option.textContent == questions[random].answer) {
                 correct++;
             }
             question_number++;
             document.querySelector("#correct").innerHTML = `${correct} of ${question_number}`
 
+            // remove  that question out of questions array and into answered array
+            answered.push(questions[random]);
+            questions.splice(random, 1);
+
             // if still questions left, keep going
-            if (question_number < questions.length) {
+            if (questions.length) {
                 load_question();
             }
             // no more questions
@@ -69,5 +75,16 @@ function retry() {
     question_number = 0;
     correct = 0;
     document.querySelector("#reset").innerHTML = "";
+    questions = answered;
+    answered = [];
     load_question();
+}
+
+
+// returns random int between min (inclusive) and max (exclusive)
+// default min value is 0
+function randInt(min = 0, max) {
+    max = Math.floor(max);
+    min = Math.floor(min);
+    return Math.floor(Math.random()*(max-min)) + min;
 }
